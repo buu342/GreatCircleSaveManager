@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29911.98
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOOMSaveManager", "DOOMSaveManager.csproj", "{6057DF34-7DE4-44DB-9976-F78F4C2D402E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreatCircleSaveManager", "GreatCircleSaveManager.csproj", "{6057DF34-7DE4-44DB-9976-F78F4C2D402E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

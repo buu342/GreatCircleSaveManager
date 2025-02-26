@@ -6,36 +6,34 @@ using System.Collections.Generic;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
 
-namespace DOOMSaveManager
+namespace GreatCircleSaveManager
 {
-    public enum DoomEternalSavePlatform
+    public enum GreatCircleSavePlatform
     {
-        BethesdaNet,
         Steam,
     }
 
-    public class DoomEternalSavePath
+    public class GreatCircleSavePath
     {
         public string Identifier;
         public string FullPath;
-        public DoomEternalSavePlatform Platform;
+        public GreatCircleSavePlatform Platform;
         public bool Encrypted = true;
 
-        public static string BnetSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Saved Games", "id Software", "DOOMEternal", "base", "savegame");
         public static string SteamSavePath = Path.Combine(Utilities.GetSteamPath(), "userdata");
 
-        public DoomEternalSavePath(string id, DoomEternalSavePlatform platform, bool encrypted = true) {
+        public GreatCircleSavePath(string id, GreatCircleSavePlatform platform, bool encrypted = true) {
             Identifier = id;
             Platform = platform;
             Encrypted = encrypted;
 
-            if (Identifier == "savegame.unencrypted") {
+            if (Identifier == "savegame.unencrypted")
+            {
                 Encrypted = false;
-                FullPath = Path.Combine(BnetSavePath + ".unencrypted", Environment.UserName);
-            } else if (platform == DoomEternalSavePlatform.BethesdaNet)
-                FullPath = Path.Combine(BnetSavePath, Identifier);
-            else if (platform == DoomEternalSavePlatform.Steam)
-                FullPath = Path.Combine(SteamSavePath, Utilities.Id64ToId3(Identifier), DoomEternal.SteamGameID.ToString(), "remote");
+                FullPath = Path.Combine(SteamSavePath + ".unencrypted", Utilities.Id64ToId3(Identifier), GreatCircle.SteamGameID.ToString(), "remote");
+            } 
+            else if (platform == GreatCircleSavePlatform.Steam)
+                FullPath = Path.Combine(SteamSavePath, Utilities.Id64ToId3(Identifier), GreatCircle.SteamGameID.ToString(), "remote");
         }
 
         public string[] GetAbsolutePaths() => Directory.GetFiles(FullPath, "*.*", SearchOption.AllDirectories);
@@ -54,10 +52,8 @@ namespace DOOMSaveManager
 
                     byte[] fileData = File.ReadAllBytes(single);
                     string relPath = single.Replace(FullPath, "").Substring(1);
-                    if (Platform == DoomEternalSavePlatform.BethesdaNet && Encrypted)
-                        fileData = Crypto.DecryptAndVerify($"{Identifier}PAINELEMENTAL{Path.GetFileName(single)}", fileData);
-                    else if (Platform == DoomEternalSavePlatform.Steam && Encrypted)
-                        fileData = Crypto.DecryptAndVerify($"{Identifier}MANCUBUS{Path.GetFileName(single)}", fileData);
+                    if (Platform == GreatCircleSavePlatform.Steam && Encrypted)
+                        fileData = Crypto.DecryptAndVerify($"{Identifier}{GreatCircle.GameKey}{Path.GetFileName(single)}", fileData);
 
                     var fi = new FileInfo(single);
                     var entryName = ZipEntry.CleanName(relPath);
@@ -96,10 +92,8 @@ namespace DOOMSaveManager
                         StreamUtils.Copy(zs, dataOut, buffer);
 
                         byte[] fileData = dataOut.ToArray();
-                        if (Platform == DoomEternalSavePlatform.BethesdaNet && Encrypted)
-                            fileData = Crypto.EncryptAndDigest($"{Identifier}PAINELEMENTAL{Path.GetFileName(entryFileName)}", fileData);
-                        else if (Platform == DoomEternalSavePlatform.Steam && Encrypted)
-                            fileData = Crypto.EncryptAndDigest($"{Identifier}MANCUBUS{Path.GetFileName(entryFileName)}", fileData);
+                        if (Platform == GreatCircleSavePlatform.Steam && Encrypted)
+                            fileData = Crypto.EncryptAndDigest($"{Identifier}{GreatCircle.GameKey}{Path.GetFileName(entryFileName)}", fileData);
 
                         File.WriteAllBytes(fullZipToPath, fileData);
                     }
@@ -108,15 +102,13 @@ namespace DOOMSaveManager
             }
         }
 
-        public void Transfer(DoomEternalSavePath dst) {
+        public void Transfer(GreatCircleSavePath dst) {
             List<Tuple<string, byte[]>> srcFiles = new List<Tuple<string, byte[]>>();
 
             // read from source
             string srcAAD;
-            if(Platform == DoomEternalSavePlatform.BethesdaNet)
-                srcAAD = "PAINELEMENTAL";
-            else if (Platform == DoomEternalSavePlatform.Steam)
-                srcAAD = "MANCUBUS";
+            if (Platform == GreatCircleSavePlatform.Steam)
+                srcAAD = GreatCircle.GameKey;
             else
                 throw new Exception("Unsupported source platform specified!");
             foreach (var single in GetAbsolutePaths()) {
@@ -128,10 +120,8 @@ namespace DOOMSaveManager
 
             // copy to destination
             string dstAAD;
-            if (dst.Platform == DoomEternalSavePlatform.BethesdaNet)
-                dstAAD = "PAINELEMENTAL";
-            else if (dst.Platform == DoomEternalSavePlatform.Steam)
-                dstAAD = "MANCUBUS";
+            if (dst.Platform == GreatCircleSavePlatform.Steam)
+                dstAAD = GreatCircle.GameKey;
             else
                 throw new Exception("Unsupported destination platform specified!");
             foreach (var single in srcFiles) {
@@ -143,6 +133,6 @@ namespace DOOMSaveManager
             }
         }
 
-        public static void Transfer(DoomEternalSavePath src, DoomEternalSavePath dst) => src.Transfer(dst);
+        public static void Transfer(GreatCircleSavePath src, GreatCircleSavePath dst) => src.Transfer(dst);
     }
 }

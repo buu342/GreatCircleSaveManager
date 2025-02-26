@@ -1,4 +1,4 @@
-﻿namespace DOOMSaveManager
+﻿namespace GreatCircleSaveManager
 {
     partial class SelectForm
     {

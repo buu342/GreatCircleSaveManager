@@ -9,7 +9,7 @@ using Microsoft.Win32;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
 
-namespace DOOMSaveManager
+namespace GreatCircleSaveManager
 {
     public static class Utilities
     {
@@ -46,7 +46,7 @@ namespace DOOMSaveManager
         }
 
         public static string GetSavePathForId64(ulong sid64) {
-            return Path.Combine(DoomEternal.SteamSavePath, (sid64 - 76561197960265728).ToString(), DoomEternal.SteamGameID.ToString(), "remote");
+            return Path.Combine(GreatCircle.SteamSavePath, (sid64 - 76561197960265728).ToString(), GreatCircle.SteamGameID.ToString(), "remote");
         }
 
         public static bool CheckUUID(string s) {

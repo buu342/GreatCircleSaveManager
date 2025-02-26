@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 using System.IO;
 
-namespace DOOMSaveManager
+namespace GreatCircleSaveManager
 {
     public partial class SelectForm : Form
     {
-        public DoomEternalSavePath SelectedSave;
+        public GreatCircleSavePath SelectedSave;
 
         public SelectForm(string title = "") {
             InitializeComponent();
@@ -16,7 +16,7 @@ namespace DOOMSaveManager
         }
 
         private void SelectForm_Load(object sender, EventArgs e) {
-            selectComboBox.Items.AddRange(DoomEternal.Saves.GetIdentifiers());
+            selectComboBox.Items.AddRange(GreatCircle.Saves.GetIdentifiers());
             if (selectComboBox.Items.Count > 0) {
                 selectComboBox.SelectedIndex = 0;
             }
@@ -28,7 +28,7 @@ namespace DOOMSaveManager
                 return;
             }
 
-            if(!DoomEternal.Saves.SaveExists(selectComboBox.Text, out SelectedSave)) {
+            if(!GreatCircle.Saves.SaveExists(selectComboBox.Text, out SelectedSave)) {
                 MessageBox.Show("That item doesn't exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

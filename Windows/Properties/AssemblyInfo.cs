@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DOOM Save Manager")]
-[assembly: AssemblyDescription("A program to import, export, and transfer DOOM Eternal saves")]
+[assembly: AssemblyTitle("Great Circle Save Manager")]
+[assembly: AssemblyDescription("A program to import, export, and transfer Indiana Jones and the Great Circle saves")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DOOM Save Manager")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyProduct("Great Circle Save Manager")]
+[assembly: AssemblyCopyright("Copyright ©  2020, 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

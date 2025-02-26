@@ -3,12 +3,12 @@ using System.Windows.Forms;
 
 using System.IO;
 
-namespace DOOMSaveManager
+namespace GreatCircleSaveManager
 {
     public partial class TransferForm : Form
     {
-        public DoomEternalSavePath SrcSave;
-        public DoomEternalSavePath DstSave;
+        public GreatCircleSavePath SrcSave;
+        public GreatCircleSavePath DstSave;
 
         private string[] uids;
 
@@ -17,8 +17,8 @@ namespace DOOMSaveManager
         }
 
         private void TransferForm_Load(object sender, EventArgs e) {
-            DoomEternal.EnumerateSaves();
-            uids = DoomEternal.Saves.GetIdentifiers();
+            GreatCircle.EnumerateSaves();
+            uids = GreatCircle.Saves.GetIdentifiers();
 
             srcComboBox.Items.AddRange(uids);
 
@@ -31,11 +31,11 @@ namespace DOOMSaveManager
         }
 
         private void transferOkBtn_Click(object sender, EventArgs e) {
-            if (!DoomEternal.Saves.SaveExists(srcComboBox.Text, out SrcSave)) {
+            if (!GreatCircle.Saves.SaveExists(srcComboBox.Text, out SrcSave)) {
                 MessageBox.Show("Invalid source!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (!DoomEternal.Saves.SaveExists(dstComboBox.Text, out DstSave)) {
+            if (!GreatCircle.Saves.SaveExists(dstComboBox.Text, out DstSave)) {
                 MessageBox.Show("Invalid destination!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }

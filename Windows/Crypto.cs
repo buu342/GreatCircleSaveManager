@@ -10,7 +10,7 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
 
-namespace DOOMSaveManager
+namespace GreatCircleSaveManager
 {
 	public static class Crypto
     {

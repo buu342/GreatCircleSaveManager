@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text;
 
-namespace DOOMSaveManager
+namespace GreatCircleSaveManager
 {
     public partial class Form1 : Form
     {
@@ -13,10 +13,10 @@ namespace DOOMSaveManager
         }
 
         private void Form1_Load(object sender, EventArgs e) {
-            DoomEternal.EnumerateSaves();
+            GreatCircle.EnumerateSaves();
 
-            if(!Directory.Exists(DoomEternal.BnetSavePath) && !Directory.Exists(DoomEternal.SteamSavePath) && !DoomEternal.Saves.GetSave("savegame.unencrypted").Exists()) {
-                MessageBox.Show("DOOM Eternal wasn't found on your computer!\r\nThe program will now exit...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if(!Directory.Exists(GreatCircle.SteamSavePath) && !GreatCircle.Saves.GetSave("savegame.unencrypted").Exists()) {
+                MessageBox.Show("Indiana Jones and the Great Circle wasn't found on your computer!\r\nThe program will now exit...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
         }
